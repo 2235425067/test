@@ -1,19 +1,19 @@
-from matplotlib import pyplot as plt
-import seaborn as sns
-import numpy as np
+# coding:utf-8
+# import seaborn as sns
+# import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.datasets import load_iris
-from sklearn.decomposition import PCA
-import  torch
-import  random
+
+# from sklearn.decomposition import PCA
+# import  torch
+# import  random
 #import pandas as pd
 def prune():
-    # 练习的数据：
+
     data1 = np.load('D:\code\py\\test\\headPrune.npy')-0.05
     data2 = np.load('D:\code\py\\test\\ffnPrune.npy')-0.05
     #data = pd.DataFrame(data)
     fig, axes = plt.subplots(1, 2)
-    # 绘制热度图：
+
     x=[ round(3/14*(i+1),1)for i in range(14)]
     y=[i+1 for i in range(12)]
     plt1=sns.heatmap(data1.T,ax=axes[0],xticklabels=x,yticklabels=y, cmap="YlGnBu")
@@ -26,10 +26,10 @@ def prune():
     plt2.set_ylabel('Layer')
     plt.show()
 def avg():
-    # 练习的数据：
+
     data1 = np.load('D:\code\py\\test\\ProbMean.npy')
 
-    # 绘制热度图：
+
     x=[ round(3/14*(i+1),1)for i in range(14)]
     y=[i+1 for i in range(12)]
     plt1=sns.heatmap(data1.T,xticklabels=x,yticklabels=y,cmap = 'RdBu')
@@ -39,65 +39,83 @@ def avg():
     plt.show()
 
 def ablation():
-    # 构造x轴刻度标签、数据
+    fontsize=20
     labels = ['NDCG@10', 'Hit@10']
-    first = [36.22, 36.00,36.08,35.98]
-    second = [52.47, 52.03, 53.16, 52.23]
-    # 三组数据
-    fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(10, 3))
-    l=['Alg','$alg_{w/o \\, \\alpha}$','$alg_{w/o \\, \\beta}$','$alg_{w/o \\, w}$']
+    first = [36.47, 36.08,36.00,35.98]
+    second = [52.69, 52.21, 52.03, 52.23]
+
+    fig, ax= plt.subplots(1, 3, figsize=(10, 3))
+
+    ax1=ax[0]
+    ax2 = ax[1]
+    ax3 = ax[2]
+    l=['$C^{2}GNN$','$C^{2}GNN_{w/o \\, \\alpha}$','$C^{2}GNN_{w/o \\, \\beta}$','$C^{2}GNN_{w/o \\, w}$']
     width = 0.05
-    x =  [ width *i for i in range(4)]  # x轴刻度标签位置
+    x =  [ width *i for i in range(4)]
     x1 = [width  * (i+6) for i in range(4)]
-    # 计算每个柱子在x轴上的位置，保证x轴刻度标签居中
+
     for i in range(4):
         ax1.bar(x[i], first[i], width, label=l[i],alpha=0.8)
     ax1.set_ylim(34, 37)
     ax1.set_xticks([0.075,0.375])
-    ax1.set_xticklabels(labels)
-
+    ax1.set_xticklabels(labels, fontsize=fontsize)
+    x=[34.0+i*0.5 for i in range(7)]
+    ax1.set_yticklabels(x,fontsize=fontsize)
     plt1 = ax1.twinx()
     for i in range(4):
         plt1.bar(x1[i], second[i], width, label=l[i],alpha=0.8)
     plt1.set_ylim(51, 54)
+    x = [51.0 + i * 0.5 for i in range(7)]
+    plt1.set_yticklabels(x, fontsize=fontsize)
 
-    #---------------------------------------------
-    first = [54.72, 53.97,54.00,49.78]
-    second = [75.71, 75.46, 75.26, 71.47]
+    first = [54.72,54.00, 53.97,49.78]
+    second = [75.71, 75.26, 75.46, 71.47]
 
     width = 0.05
-    x =  [ width *i for i in range(4)]  # x轴刻度标签位置
+    x =  [ width *i for i in range(4)]
     x1 = [width  * (i+6) for i in range(4)]
-    # 计算每个柱子在x轴上的位置，保证x轴刻度标签居中
+
     for i in range(4):
         ax2.bar(x[i], first[i], width, label=l[i],alpha=0.8)
-    ax2.set_ylim(49, 55)
+    ax2.set_ylim(47, 55)
 
     ax2.set_xticks([0.075,0.375])
-    ax2.set_xticklabels(labels)
+    ax2.set_xticklabels(labels, fontsize=fontsize)
+
+    x=[47+i for i in range(9)]
+    ax2.set_yticklabels(x,fontsize=fontsize)
+
     plt2 = ax2.twinx()
     for i in range(4):
         plt2.bar(x1[i], second[i], width, label=l[i],alpha=0.8)
-    plt2.set_ylim(71, 76)
-    #------------------------------------------------
-    first = [57.91, 57.57,57.67,57.10]
-    second = [76.88, 77.04, 77.06, 76.68]
+    plt2.set_ylim(69, 76)
+    x=[69+i for i in range(9)]
+    plt2.set_yticklabels(x,fontsize=fontsize)
+    first = [58.43,57.67, 57.57,57.10]
+    second = [77.73, 77.06, 77.04, 76.68]
 
 
     width = 0.05
-    x =  [ width *i for i in range(4)]  # x轴刻度标签位置
+    x =  [ width *i for i in range(4)]
     x1 = [width  * (i+6) for i in range(4)]
-    # 计算每个柱子在x轴上的位置，保证x轴刻度标签居中
+
     for i in range(4):
         ax3.bar(x[i], first[i], width, label=l[i],alpha=0.8)
-    ax3.set_ylim(57, 58)
+
+
+    ax3.set_ylim(55, 59)
+    x=[55.00+i*0.5 for i in range(9)]
+    ax3.set_yticklabels(x,fontsize=fontsize)
+
     ax3.set_xticks([0.075,0.375])
-    ax3.set_xticklabels(labels)
+    ax3.set_xticklabels(labels, fontsize=fontsize)
 
     plt3 = ax3.twinx()
     for i in range(4):
         plt3.bar(x1[i], second[i], width, label=l[i],alpha=0.8)
     plt3.set_ylim(76, 78)
+    x=[76.00+i*0.25 for i in range(9)]
+    plt3.set_yticklabels(x,fontsize=fontsize)
     # ax1.bar(x - 0.5 * width, second, width, label='$alg_{w/o \\, \\alpha}$')
     # plt1 = ax1.twinx()
     # plt1.bar(x + 0.5 * width, third, width, label='$alg_{w/o \\, \\beta}$')
@@ -108,15 +126,32 @@ def ablation():
 
     # plt.legend(loc=0, prop={'size': 16})
 
-    ax2.legend(loc='center', bbox_to_anchor=(0.5, 1.05),ncol=4, prop={'size': 20})
+    ax2.legend(loc='center', bbox_to_anchor=(0.5, 1.07),ncol=4, prop={'size': 20})
 
     plt.show()
-def zhexian():
+def compare():
+    game = ['1', '2', '3']
 
+    beauty1 = [57.21, 58.43, 57.48]
+    beauty2 = [76.61, 77.73, 76.72]
+    s=20
+    fig, (ax1) =plt.subplots( 1, 1, figsize=(10,3))
+    plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=0.5)
+    plt1 = ax1.twinx()
+    lns1=ax1.plot(game, beauty1, c='red', label="NDCG@10")
+    lns2=plt1.plot(game, beauty2, c='green', linestyle='--', label="Hit@10")
+    ax1.scatter(game, beauty1, marker='v', c='red')
+    plt1.scatter(game, beauty2, marker='s', c='green')
+    lns = lns1 + lns2
+    labs = [l.get_label() for l in lns]
+    ax1.legend(lns, labs, loc=0, prop={'size': s})
+    plt.show()
+def zhexian():
+    fontsize=20
     game = ['1', '2', '3', '4']
 
-    beauty1 = [35.47, 35.90, 36.22, 35.53]
-    beauty2 = [51.40, 52.19, 52.47, 51.23]
+    beauty1 = [35.47, 35.90, 36.47, 35.53]
+    beauty2 = [51.40, 52.19, 52.69, 51.23]
     s=20
     fig, (ax1,ax2,ax3) =plt.subplots( 1, 3, figsize=(10,3))
     plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=0.5)
@@ -127,9 +162,20 @@ def zhexian():
     plt1.scatter(game, beauty2, marker='s', c='green')
     lns = lns1 + lns2
     labs = [l.get_label() for l in lns]
+
+    ax1.set_ylim(35, 36.6)
+    ax1.set_xticklabels(['1','2','3','4'], fontsize=fontsize)
+    x=[35.0+i*0.2 for i in range(9)]
+    ax1.set_yticklabels(x,fontsize=fontsize)
+
+    plt1.set_ylim(51, 53)
+    plt1.set_xticklabels(['1','2','3','4'], fontsize=fontsize)
+    x=[51.00+i*0.25 for i in range(9)]
+    plt1.set_yticklabels(x,fontsize=fontsize)
+
     ax1.legend(lns, labs, loc=0, prop={'size': s})
-    cd1 = [54.28, 57.01, 57.91, 57.23]
-    cd2 = [74.01, 76.20, 76.88, 76.58]
+    cd1 = [54.28, 57.01, 58.43, 57.23]
+    cd2 = [74.01, 76.20, 77.73, 76.58]
     plt2 = ax2.twinx()
     lns1=ax2.plot(game, cd1, c='red', label="NDCG@10")
     lns2=plt2.plot(game, cd2, c='green', linestyle='--', label="Hit@10")
@@ -137,6 +183,16 @@ def zhexian():
     plt2.scatter(game, cd2, marker='s', c='green')
     lns = lns1 + lns2
     labs = [l.get_label() for l in lns]
+
+    ax2.set_ylim(54, 59)
+    ax2.set_xticklabels(['1','2','3','4'], fontsize=fontsize)
+    x=[54+i*1 for i in range(6)]
+    ax2.set_yticklabels(x,fontsize=fontsize)
+
+    plt2.set_ylim(74, 78)
+    plt2.set_xticklabels(['1','2','3','4'], fontsize=fontsize)
+    x=[74.0+i*0.5 for i in range(9)]
+    plt2.set_yticklabels(x,fontsize=fontsize)
     ax2.legend(lns, labs, loc=0, prop={'size': s})
 
 
@@ -149,6 +205,15 @@ def zhexian():
     plt3.scatter(game, game2, marker='s', c='green')
     lns = lns1 + lns2
     labs = [l.get_label() for l in lns]
+    ax3.set_ylim(49, 55)
+    ax3.set_xticklabels(['1','2','3','4'], fontsize=fontsize)
+    x=[49+i*1 for i in range(7)]
+    ax3.set_yticklabels(x,fontsize=fontsize)
+
+    plt3.set_ylim(71, 76)
+    plt3.set_xticklabels(['1','2','3','4'], fontsize=fontsize)
+    x=[71+i*1 for i in range(6)]
+    plt3.set_yticklabels(x,fontsize=fontsize)
     ax3.legend(lns, labs, loc=0, prop={'size': s})
     plt.show()
 
@@ -201,4 +266,5 @@ if __name__=='__main__':
     # path3='D:\software\ecnu\onedrive\桌面\DGSR/Games_ba_50_G_1_dim_50_UM_50_IM_50_K_2_layer_3_l2_0.0001_usel2_False_usexTime_True_usejTime_True_duibi_False_0.5_1e-06_topk_no_useOld_True_seed_3407.pkl'
     # model3 = torch.load(path3, map_location=torch.device('cpu'))
     zhexian()
+    # compare()
     # pca(model['item_embedding.weight'],model1['item_embedding.weight'],model2['item_embedding.weight'],model3['item_embedding.weight'])
